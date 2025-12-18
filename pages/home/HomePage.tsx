@@ -1,10 +1,14 @@
 "use client";
-
-import Whiteboard from "@/components/Whiteboard";
-
+import Toolbar from "@/components/Toolbar";
+import dynamic from "next/dynamic";
+const Whiteboard = dynamic(() => import("@/components/Whiteboard"), {
+  ssr: false,
+  loading: () => <div>Loading...</div>,
+});
 export default function HomePage() {
   return (
     <main className="relative w-full h-screen bg-[#f0f2f5]  overflow-hidden selection:bg-none">
+      <Toolbar />
       <div className="absolute inset-0 z-1">
         <Whiteboard />
       </div>

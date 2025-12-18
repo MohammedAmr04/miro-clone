@@ -1,25 +1,20 @@
-"use client"
-import { Layer, Rect, Stage } from "react-konva";
+"use client";
+import { useWhiteboard } from "@/store";
+import { SHAPE_COMPONENTS } from "@/types/types";
+import { Layer, Stage } from "react-konva";
 
 export default function Whiteboard() {
-    
+  const { layers } = useWhiteboard();
 
-
-
-    return <Stage width={window.innerWidth} height={window.innerHeight}>
-        <Layer>
-          <Rect
-          x={20}
-          y={50}
-          width={100}
-          height={100}
-          fill="red"
-          shadowBlur={10}
-          draggable
-        />
-        </Layer>
-         
-        </Stage>
-
-    
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        {layers.map((layer) => {
+          const Component = SHAPE_COMPONENTS[layer.type];
+          if (!Component) return null;
+          return <Component key={layer.id} {...layer} />;
+        })}
+      </Layer>
+    </Stage>
+  );
 }

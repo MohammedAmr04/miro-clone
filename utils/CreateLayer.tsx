@@ -7,6 +7,7 @@ const SHAPE_DEFAULTS = {
   strokeWidth: 2,
   width: 100,
   height: 100,
+  draggable: true,
 };
 
 export const createLayerFactory = (type: LayerType): Layer => {
@@ -20,6 +21,7 @@ export const createLayerFactory = (type: LayerType): Layer => {
 
   switch (type) {
     case "Rectangle":
+      console.log("Rectangle");
       return {
         ...baseLayer,
       };
