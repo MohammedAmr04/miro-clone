@@ -34,8 +34,6 @@ export const createLayerFactory = (type: LayerType): Layer => {
     case "Text":
       return {
         ...baseLayer,
-        width: 200,
-        height: 50,
         text: "Type something...",
         fontSize: 24,
         fontFamily: "sans-serif",

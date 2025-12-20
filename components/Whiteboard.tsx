@@ -4,7 +4,7 @@ import { SHAPE_COMPONENTS } from "@/types/types";
 import { Layer, Stage } from "react-konva";
 
 export default function Whiteboard() {
-  const { layers } = useWhiteboard();
+  const { layers, setSelectedLayerId } = useWhiteboard();
 
   return (
     <Stage width={window.innerWidth} height={window.innerHeight}>
@@ -12,7 +12,13 @@ export default function Whiteboard() {
         {layers.map((layer) => {
           const Component = SHAPE_COMPONENTS[layer.type];
           if (!Component) return null;
-          return <Component key={layer.id} {...layer} />;
+          return (
+            <Component
+              key={layer.id}
+              {...layer}
+              onClick={() => setSelectedLayerId(layer.id)}
+            />
+          );
         })}
       </Layer>
     </Stage>
