@@ -69,9 +69,9 @@ export default function Whiteboard() {
       direction = -direction;
     }
 
-    const scaleBy = 1.05;
+    const scaleBy = 1.1;
     const newScale = direction > 0 ? oldScale * scaleBy : oldScale / scaleBy;
-    if (newScale < 0.1 || newScale > 10) return;
+    if (newScale < 0.2 || newScale > 4) return;
 
     stage.scale({ x: newScale, y: newScale });
     const newPos = {

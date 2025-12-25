@@ -1,6 +1,7 @@
 "use client";
 import PropertiesPanel from "@/components/propetiesPanel";
 import Toolbar from "@/components/Toolbar";
+import ZoomControl from "@/components/ZoomControl";
 import dynamic from "next/dynamic";
 const Whiteboard = dynamic(() => import("@/components/Whiteboard"), {
   ssr: false,
@@ -11,6 +12,7 @@ export default function HomePage() {
     <main className="relative w-full h-screen bg-[#f0f2f5]  overflow-hidden selection:bg-none">
       <Toolbar />
       <PropertiesPanel />
+      <ZoomControl />
       <div className="absolute inset-0 z-1">
         <Whiteboard />
       </div>
