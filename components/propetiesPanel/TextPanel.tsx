@@ -5,7 +5,7 @@ function PropetiesText() {
     state.layers.find((layer) => layer.id === selectedLayerId)
   );
   if (!selectedLayerId) return null;
-  if (!selectedLayer) return null;
+  if (!selectedLayer || selectedLayer.type !== "Text") return null;
 
   return (
     <div className="mb-6 space-y-3">
