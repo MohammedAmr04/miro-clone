@@ -7,42 +7,59 @@ const SHAPE_DEFAULTS = {
   strokeWidth: 2,
   width: 100,
   height: 100,
-  draggable: true,
+  rotation: 0,
 };
 
-export const createLayerFactory = (type: LayerType): Layer => {
+// بنستلم الكاميرا عشان نعرف السنتر فين، وبنخليها اختيارية عشان لو مش موجودة
+export const createLayerFactory = (
+  type: LayerType,
+  cameraX = 0,
+  cameraY = 0
+): Layer => {
+  const layerId = uuidv4();
+
+  // حل مشكلة الـ SSR: نستخدم قيم افتراضية لو window مش موجود
+  const centerX = typeof window !== "undefined" ? window.innerWidth / 2 : 800;
+  const centerY = typeof window !== "undefined" ? window.innerHeight / 2 : 600;
+
+  // حساب الموقع بناءً على الكاميرا (عشان العنصر ينزل في نص شاشة المستخدم)
+  const x = -cameraX + centerX - 50;
+  const y = -cameraY + centerY - 50;
+
   const baseLayer = {
-    id: uuidv4(),
+    id: layerId,
     type: type,
-    x: window.innerWidth / 2 - 50,
-    y: window.innerHeight / 2 - 50,
+    x,
+    y,
     ...SHAPE_DEFAULTS,
   };
 
   switch (type) {
     case "Rectangle":
-      console.log("Rectangle");
-      return {
-        ...baseLayer,
-      };
+      return { ...baseLayer, type: "Rectangle" }; // Explicit type return
 
     case "Circle":
-      return {
-        ...baseLayer,
-      };
+      return { ...baseLayer, type: "Circle" };
 
     case "Text":
       return {
         ...baseLayer,
+        type: "Text",
         text: "Type something...",
         fontSize: 24,
-        fontFamily: "sans-serif",
-        fill: "#000000",
-        stroke: undefined,
+        fontFamily: "Inter",
+        width: 200, // النص محتاج عرض أكبر شوية
         strokeWidth: 0,
-      } as Layer;
+        fill: "#000000",
+      };
+
+    // الـ Path والـ Icon مش بيتعملهم create من هنا عادة، بس لو حبيت تعمل Placeholder
+    case "Path":
+      throw new Error(
+        "Path should be created via drawing, not factory directly."
+      );
 
     default:
-      throw new Error(`Layer type "${type}" is not supported in the factory.`);
+      throw new Error(`Layer type "${type}" is not supported.`);
   }
 };
